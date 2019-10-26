@@ -1,0 +1,1 @@
+int add42(int x); // tells the compiler what the asm program needs

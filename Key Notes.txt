@@ -1,0 +1,100 @@
+// program descriptions
+ex1  - simple sys_exit system call
+ex2  - Hello, world
+ex3  - unconditional jump
+ex4  - conditional jump
+ex5  - loop using jump instructions
+ex6  - Memory
+ex7  - playing with the stack
+ex8  - functions
+ex9  - base pointer and returning
+ex10 - function arguments
+ex11 - external functions
+ex12 - calling asm functions in c
+
+// to build and link without external
+nasm -f elf32 [filename].asm -o [filename].o
+ld -m elf_i386 [filename].o -o [filename]
+
+// to build and link with external
+nasm -f elf32 [filename].asm -o [filename].o
+gcc -m32 [filename].o -o [filename] 
+
+// to view exit status
+echo $?
+
+// interupts
+0x80 - uses eax for the type 
+    1 - sys_exit
+        ebx is the exit status
+    4 - sys_write
+        ebx is the file descriptor
+            1 for stdout
+        ecx is the location of the bytes to write
+        edx is the amount of bytes to write
+
+// operands
+mov ebx, 123  ; ebx = 123
+mov eax, ebx  ; eax = ebx
+add ebx, ecx  ; ebx += ecx
+sub ebx, edx  ; ebx -= edx
+mul ebx       ; eax *= ebx
+div edx       ; eax /= edx
+
+// conditional jump operations
+je  a, b ; Jump if equal
+jne a, b ; Jump if not equal
+jg  a, b ; Jump if greater than
+jge a, b ; Jump if greater than or equal
+jl  a, b ; Jump if less than
+jle a, b ; Jump if less than or equal
+
+// data types
+; db is 1 bytes
+name1 db "string"
+name2 db 0xff
+name3 db 100
+; dw is 2 bytes
+name4 dw 0x1234
+name5 dw 1000
+; dd is 4 bytes
+name6 dd 0x12345678
+name7 dd 100000
+
+// the stack
+LIFO data structure
+is just an array
+stack pointer (register)
+just points to the current location
+Random access
+ESP is the pointer 
+
+push 1234 - adds four btyes to the stack and subtracts 4 from the pointer
+    same as 
+        sub esp, 4
+        mov [esp], dword 1234
+
+pop eax   - moves the four bytes at current pointer location to eax 
+    and adds 4 to the pointer
+
+    same as
+        mov eax, dword [esp]
+        add esp, 4 
+
+the data is not destroyed when you pop
+
+// functions
+call is used to call a function
+the location called from +1 is pushed to the stack
+
+// base pointer
+register ebp 
+can hold the location of the top of the stack
+
+
+// ex12
+assemble the asm file
+    nasm -f elf32 [filename].asm -o [filename].o
+
+compile everything
+    gcc -m32 add42.o main.c -o ex12
